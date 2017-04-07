@@ -29,14 +29,17 @@ public class UsagerControler {
       
       
   }
-    public void Lister(){
-      
+    public Object[][] Lister(){
+       Object[][] o = null;
         UsagerManager.Lister();
+        return o;
         
     }
     
-    public void FindByName(String Nom){
-        UsagerManager.FindByName(Nom);
+    public Usager FindByName(String Nom){
+        Usager u=null;
+        UsagerManager.FindByName(Nom); 
+        return u;
     }
     public void SupprimerUsager(String Nom){
            

@@ -7,14 +7,15 @@ package bibal_yazid_saad.DAO;
 
 import bibal_yazid_saad.Connection.DbInteraction;
 import bibal_yazid_saad.Model.Oeuvre;
-import bibal_yazid_saad.View.IHMusager;
-import static bibal_yazid_saad.View.IHMusager.TableUsager;
+import bibal_yazid_saad.View.IHMoeuvre;
+
 import com.mysql.jdbc.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import net.proteanit.sql.DbUtils;
+
 
 /**
  *
@@ -43,22 +44,21 @@ public class OeuvreManager implements OeuvreInterface{
             
         try {
             DbInteraction.Connect();
-        } catch (SQLException ex) {
-            Logger.getLogger(OeuvreManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            
             String sql="select * from oeuvre ";
-        try {
             DbInteraction.pst=(PreparedStatement) DbInteraction.con.prepareStatement(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(OeuvreManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
             DbInteraction.rs=(com.mysql.jdbc.ResultSet) (ResultSet) DbInteraction.pst.executeQuery(sql);
+            
+            
+            
         } catch (SQLException ex) {
             Logger.getLogger(OeuvreManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-            TableOeuvre.setModel(DbUtils.resultSetToTableModel(DbInteraction.rs)); // changer tableUSager en tableOeuvre dans IHM
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        
+            // changer tableUSager en tableOeuvre dans IHM
+        return o;
+       
     }
 
     @Override
@@ -66,21 +66,15 @@ public class OeuvreManager implements OeuvreInterface{
         Oeuvre o =null;
         try {
             DbInteraction.Connect();
-        } catch (SQLException ex) {
-            Logger.getLogger(OeuvreManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
             String sql="select * from oeuvre where Titre like '%" + titre + "%' ";
-        try {
             DbInteraction.pst=(PreparedStatement) DbInteraction.con.prepareStatement(sql);
-        } catch (SQLException ex) {
-            Logger.getLogger(OeuvreManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
             DbInteraction.rs=(com.mysql.jdbc.ResultSet) (ResultSet) DbInteraction.pst.executeQuery(sql);
+           
+            
         } catch (SQLException ex) {
             Logger.getLogger(OeuvreManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-            TableUsager.setModel(DbUtils.resultSetToTableModel(DbInteraction.rs));
+            
             
         
    return o;
@@ -88,19 +82,19 @@ public class OeuvreManager implements OeuvreInterface{
 
     @Override
     public void SupprimerOeuvre(String titre) {
-          int row=IHMoeuvre.TableOeuvre.getSelectedRow();
-            String ID=(TableOeuvre.getModel().getValueAt(row, 0).toString());
+          String ID=null;
         try {
             DbInteraction.Connect();
+             String sql="delete from oeuvre where ID='"+ID+"'";
+            DbInteraction.update(sql);
+            DbInteraction.disconnect();
         } catch (SQLException ex) {
             Logger.getLogger(OeuvreManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-            String sql="delete from oeuvre where ID='"+ID+"'";
-            DbInteraction.update(sql);
-            DbInteraction.disconnect();
+           
            
         
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       
     }
     
     

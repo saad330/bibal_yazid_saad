@@ -8,17 +8,13 @@ package bibal_yazid_saad.DAO;
 import bibal_yazid_saad.Connection.DbInteraction;
 import bibal_yazid_saad.View.IHMusager;
 import bibal_yazid_saad.Model.Usager;
-import static bibal_yazid_saad.View.IHMusager.TableUsager;
+
 import com.mysql.jdbc.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import net.proteanit.sql.DbUtils;
 
 
 
@@ -55,7 +51,7 @@ public class UsagerManager implements UsagerInterface{
             String sql="select * from usager ";
             DbInteraction.pst=(PreparedStatement) DbInteraction.con.prepareStatement(sql);
             DbInteraction.rs=(com.mysql.jdbc.ResultSet) (ResultSet) DbInteraction.pst.executeQuery(sql);
-            TableUsager.setModel(DbUtils.resultSetToTableModel(DbInteraction.rs));
+           
             
           
             
@@ -77,7 +73,7 @@ public class UsagerManager implements UsagerInterface{
             String sql="select * from usager where Nom like '%" + Nom + "%' ";
             DbInteraction.pst=(PreparedStatement) DbInteraction.con.prepareStatement(sql);
             DbInteraction.rs=(com.mysql.jdbc.ResultSet) (ResultSet) DbInteraction.pst.executeQuery(sql);
-            TableUsager.setModel(DbUtils.resultSetToTableModel(DbInteraction.rs));
+           
            
         } catch (SQLException ex) {
              JOptionPane.showMessageDialog(null, ex);
@@ -89,8 +85,7 @@ public class UsagerManager implements UsagerInterface{
     @Override
     public void SupprimerUsager(String Nom) {
         try {
-            int row=IHMusager.TableUsager.getSelectedRow();
-            String ID=(TableUsager.getModel().getValueAt(row, 0).toString());
+           String ID = null;
             DbInteraction.Connect();
             String sql="delete from usager where ID='"+ID+"'";
             DbInteraction.update(sql);
@@ -105,10 +100,9 @@ public class UsagerManager implements UsagerInterface{
     @Override
     public void ModifierUsager(Usager u) {
         try {
-            int row=IHMusager.TableUsager.getSelectedRow();
-            String ID=(TableUsager.getModel().getValueAt(row, 0).toString());
+           
             DbInteraction.Connect();
-            String sql="update usager set Nom='"+u.getNom()+"',Prenom='"+u.getPrenom()+"',Date_Naissance='"+u.getDate_Naissance()+"',Tel='"+u.getTel()+"',Adresse='"+u.getAdresse()+"' where ID="+ID+"";
+            String sql="update usager set Nom='"+u.getNom()+"',Prenom='"+u.getPrenom()+"',Date_Naissance='"+u.getDate_Naissance()+"',Tel='"+u.getTel()+"',Adresse='"+u.getAdresse()+"' where ID="+u.getID()+"";
             DbInteraction.update(sql);
             DbInteraction.disconnect();
             

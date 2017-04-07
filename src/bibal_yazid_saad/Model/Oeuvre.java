@@ -13,7 +13,7 @@ public class Oeuvre {
    private int ID;
    private String Titre;
    private String Auteur;
-   private int NbrResa;
+   private int NbrResa=0;
   
    private int Lending;
    private int Lending2;
